@@ -1,0 +1,29 @@
+<h2>Create an Account</h2>
+
+<p>By creating an account, you can:</p>
+<ul>
+  <li>Read entire stories, not just excerpts.</li>
+  <li>Upvote the stories you love (and downvote the ones you can live without).</li>
+  <li>Submit suggestions to authors for ways they can improve their stories.</li>
+  <li>Submit your own stories for review.</li>
+</ul>
+
+<form action="/user" method="post">
+  <% if @username_error %>
+    <%= @username_error %>
+  <% end %>
+  <label for="">Username:</label>
+  <input type="text" name="username" required>
+  <% if @email_error %>
+    <%= @email_error %>
+  <% end %>
+  <label for="">Email:</label>
+  <input type="email" name="email" required>
+  <% if @password_error %>
+    <%= @password_error %>
+  <% end %>
+  <label for="">Password:</label>
+  <input name="password" type="password" required>
+
+  <button>Sign Up</button>
+</form>
