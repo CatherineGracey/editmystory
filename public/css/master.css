@@ -1,0 +1,16 @@
+.story_form {
+
+}
+
+.story_form input, .story_form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .25rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+form .hint {
+  font-size: .8rem;
+  color: #111;
+}

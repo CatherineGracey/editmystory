@@ -90,19 +90,59 @@ get '/stories' do
   erb :story_list
 end
 
-get 'story/:id' do
+get '/story' do
+  if logged_in?
+    erb :submit_story
+  else
+    redirect to '/'
+  end
+end
+
+post '/story' do
+  if logged_in?
+    if !params[:title]
+      @story_title_error = "Every story needs a title. Please add one and try again."
+    end
+    if !params[:by_line]
+      @by_line_error = "Please enter your name or your pen name, so that your loyal fans know who to buy this book from when it is finished."
+    end
+    if !params[:story_text]
+      @story_text_error = "Every story begins with a single word. Yours should try doing this too."
+    end
+    if !@story_title_error && !@by_line_error && !@story_text_error
+      story = Story.new
+      story.title = params[:title]
+      story.by_line = params[:by_line]
+      story.story_text = params[:story_text]
+      if !params[:privacy]
+        story.privacy = "private"
+      else
+        story.privacy = params[:privacy]
+      end
+      if !params[:editor_instructions]
+        story.editor_instructions = "Please tell me what you think of my story."
+      else
+        story.editor_instructions = params[:editor_instructions]
+      end
+      if story.save
+        redirect to "/story/#{story.id}"
+      end
+    else
+      puts @story_title_error
+      puts @by_line_error
+      puts @story_text_error
+    end
+  else
+    redirect to '/'
+  end
+end
+
+get '/story/:id' do
+  @story = Story.find(params[:id])
   erb :display_story
 end
 
 post '/vote' do
-  erb :display_story
-end
-
-get '/story' do
-  erb :submit_story
-end
-
-post '/story' do
   erb :display_story
 end
 
@@ -120,5 +160,6 @@ end
 # Users can submit edits
 # Users can set the visibility of their stories
 # Users can see edits on their stories
+# Users can see the edits that they have written
 # Users can up/down vote edits on their stories
 # Users can specify the type of edit that they want to receive
