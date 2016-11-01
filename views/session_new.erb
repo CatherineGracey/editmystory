@@ -1,0 +1,14 @@
+<h2>Log in</h2>
+
+<form action="/session" method="post">
+  <% if @user_not_found %>
+  <p><%= @user_not_found %></p>
+  <% end %>
+  <label for="">Username:</label>
+  <input type="text" name="username" value="<%= @username %>">
+
+  <label for="">Password:</label>
+  <input name="password" type="password">
+
+  <button>Log in</button>
+</form>
