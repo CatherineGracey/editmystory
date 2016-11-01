@@ -10,17 +10,17 @@
 
 <form action="/user" method="post">
   <% if @username_error %>
-    <%= @username_error %>
+    <p><%= @username_error %></p>
   <% end %>
   <label for="">Username:</label>
-  <input type="text" name="username" required>
+  <input type="text" name="username" value="<%= @username %>" required>
   <% if @email_error %>
-    <%= @email_error %>
+    <p><%= @email_error %></p>
   <% end %>
   <label for="">Email:</label>
-  <input type="email" name="email" required>
+  <input type="email" name="email" value="<%= @email %>" required>
   <% if @password_error %>
-    <%= @password_error %>
+    <p><%= @password_error %></p>
   <% end %>
   <label for="">Password:</label>
   <input name="password" type="password" required>
