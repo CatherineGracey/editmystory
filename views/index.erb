@@ -1,0 +1,33 @@
+<p>Welcome to Edit My Story, a home for crowd sourced editing.</p>
+<% if !logged_in? %>
+  <h2>For Authors</h2>
+  <p>Looking for beta readers? Feedback on structure, characterisation and story development? Simply upload your story for review and pay it forward by helping other authors while you wait for people to read and comment on your work.</p>
+  <h2>For Readers</h2>
+  <p>Do you love a sneak peek at the latest fiction before it hits the bookstores? Always have a great idea for fiction that you wish you could tell the author? Well, here is your chance.</p>
+  <h2>How Does It Work?</h2>
+  <p>Users register with the website to access the full functionality. Authors can submit a story for review, and tell readers what type of feedback they are looking for. Readers can search for stories to read, upvote their favourites and provide helpful feedback on the stories that need more work. If an author finds the comments helpful, they can incorporate the suggestions into their work.</p>
+  <a href="/user">Register</a>
+  <form action="/session" method="post">
+    <label for="">Username:</label>
+    <input type="text" name="username">
+
+    <label for="">Password:</label>
+    <input name="password" type="password">
+
+    <button>Log in</button>
+  </form>
+<% end %>
+<h2>Stories</h2>
+<div class="list">
+  <% if @stories.length == 0 %>
+    <% if !logged_in? %>
+      <p>No stories are currently available. Please log in to see stories restricted to registered users.</p>
+    <% else %>
+      <p>No stories are currently available. Please submit your own story to give others something to read.</p>
+    <% end %>
+  <% else %>
+    <% @stories.each do |story| %>
+    <a href="/story/#story.id"><%= story.title %> by <%= story.by_line %></a>
+    <% end %>
+  <% end %>
+</div>

@@ -20,6 +20,11 @@ helpers do
 end
 
 get '/' do
+  if logged_in?
+    @stories = Story.where.not(privacy: "private")
+  else
+    @stories = Story.where(privacy: "public")
+  end
   erb :index
 end
 
@@ -139,6 +144,19 @@ end
 
 get '/story/:id' do
   @story = Story.find(params[:id])
+  # Story is visible publically:
+  #   Users can read the entire story
+  #   Visitors can read an excerpt of the story
+  # Story is visible restricted:
+  #   Users can read the entire story
+  #   Visitors cannot access the story
+  # Story is visible private
+  #   Authors can read the entire story
+  #   Users cannot access the story
+  #   Visitors cannot access the story
+  if !logged_in
+
+  end
   erb :display_story
 end
 
