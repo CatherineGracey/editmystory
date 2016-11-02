@@ -1,5 +1,6 @@
 body {
   background-color: #ffe;
+  font-family: sans-serif;
 }
 
 .wrapper {
@@ -7,9 +8,12 @@ body {
   margin: 0 auto;
 }
 
-header {
-  text-align: center;
+header, h1, h2, a, input, textarea {
   font-family: 'Handlee', cursive;
+}
+
+header, h1, h2 {
+  text-align: center;
 }
 
 header ul {
@@ -23,7 +27,7 @@ header li {
   padding-right: 1.5rem;
 }
 
-header nav {
+header nav, .flex {
   display: flex;
   justify-content: space-between;
 }
@@ -31,7 +35,6 @@ header nav {
 a {
   color: red;
   text-decoration: none;
-  font-family: 'Handlee', cursive;
   font-size: 1.1em;
 }
 
@@ -47,7 +50,6 @@ a {
   padding: .25rem;
   font-size: 1.1rem;
   margin-bottom: 1rem;
-  font-family: 'Handlee', cursive;
 }
 
 form .hint {
