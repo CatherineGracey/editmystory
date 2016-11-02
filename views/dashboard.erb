@@ -1,0 +1,11 @@
+<h2>Dashboard</h2>
+
+<h3>Your Stories:</h3>
+
+<% if @stories.length == 0 %>
+  <p>You haven't uploaded anything yet.</p>
+<% else %>
+  <% @stories.each do |story| %>
+  <a href="/story/<%= story.id%>"><%= story.title %> with <%= story.edits.length %> edits.</a>
+  <% end %>
+<% end %>
