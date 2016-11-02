@@ -3,19 +3,21 @@
   <h2>For Authors</h2>
   <p>Looking for beta readers? Feedback on structure, characterisation and story development? Simply upload your story for review and pay it forward by helping other authors while you wait for people to read and comment on your work.</p>
   <h2>For Readers</h2>
-  <p>Do you love a sneak peek at the latest fiction before it hits the bookstores? Always have a great idea for fiction that you wish you could tell the author? Well, here is your chance.</p>
+  <p>Do you love a sneak peek at the latest fiction before it hits the bookstores? Always have great ideas when you read stories that you wish you could tell the author? Well, here is your chance.</p>
   <h2>How Does It Work?</h2>
   <p>Users register with the website to access the full functionality. Authors can submit a story for review, and tell readers what type of feedback they are looking for. Readers can search for stories to read, upvote their favourites and provide helpful feedback on the stories that need more work. If an author finds the comments helpful, they can incorporate the suggestions into their work.</p>
-  <a href="/user">Register</a>
-  <form action="/session" method="post">
-    <label for="">Username:</label>
-    <input type="text" name="username">
+  <div class="flex">
+    <a href="/user">Sign Up</a>
+    <form action="/session" method="post">
+      <label for="username-main">Username:</label>
+      <input type="text" name="username" id="username-main">
 
-    <label for="">Password:</label>
-    <input name="password" type="password">
+      <label for="password-main">Password:</label>
+      <input name="password" type="password" id="password-main">
 
-    <button>Log in</button>
-  </form>
+      <button>Log in</button>
+    </form>
+  </div>
 <% end %>
 <h2>Stories</h2>
 <div class="list">
