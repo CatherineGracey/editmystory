@@ -27,7 +27,7 @@
     <% end %>
   <% else %>
     <% @stories.each do |story| %>
-    <a href="/story/#story.id"><%= story.title %> by <%= story.by_line %></a>
+    <a href="/story/<%= story.id %>"><%= story.title %> by <%= story.by_line %></a>
     <% end %>
   <% end %>
 </div>

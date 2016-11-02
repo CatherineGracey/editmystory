@@ -1,7 +1,8 @@
 require 'sinatra'
+require 'sinatra/reloader'
 require_relative 'db_config'
-require_relative 'models/edit'
 require_relative 'models/story'
+require_relative 'models/suggestion'
 require_relative 'models/user'
 require_relative 'models/vote'
 
@@ -55,8 +56,12 @@ post '/user' do
     user.username = params[:username]
     user.email = params[:email]
     user.password = params[:password]
-    user.save
-    redirect to '/dashboard'
+    if user.save
+      session[:user_id] = user.id
+      redirect to '/dashboard'
+    else
+      erb :user_signup
+    end
   else
     erb :user_signup
   end
@@ -88,11 +93,13 @@ delete '/session' do
 end
 
 get '/dashboard' do
-  erb :dashboard
-end
-
-get '/stories' do
-  erb :story_list
+  if logged_in?
+    @stories = Story.where(user_id: session[:user_id])
+    p @stories
+    erb :dashboard
+  else
+    redirect to '/'
+  end
 end
 
 get '/story' do
@@ -116,9 +123,10 @@ post '/story' do
     end
     if !@story_title_error && !@by_line_error && !@story_text_error
       story = Story.new
+      story.user_id = session[:user_id]
       story.title = params[:title]
-      story.by_line = params[:by_line]
       story.story_text = params[:story_text]
+      story.by_line = params[:by_line]
       if !params[:privacy]
         story.privacy = "private"
       else
@@ -136,6 +144,7 @@ post '/story' do
       puts @story_title_error
       puts @by_line_error
       puts @story_text_error
+      erb :submit_story
     end
   else
     redirect to '/'
@@ -144,6 +153,8 @@ end
 
 get '/story/:id' do
   @story = Story.find(params[:id])
+  @edits = Suggestion.where(story_id: @story.id)
+  @story.story_text.gsub!("\r\n\r\n", '</p><p>')
   # Story is visible publically:
   #   Users can read the entire story
   #   Visitors can read an excerpt of the story
@@ -154,10 +165,45 @@ get '/story/:id' do
   #   Authors can read the entire story
   #   Users cannot access the story
   #   Visitors cannot access the story
-  if !logged_in
-
+  if @story.privacy == "private"
+    if @story.user == current_user
+      erb :display_story
+    else
+      redirect to '/'
+    end
+  elsif @story.privacy == "restricted"
+    if logged_in?
+      erb :display_story
+    else
+      redirect to '/'
+    end
+  else # public story
+    if logged_in?
+      erb :display_story
+    else
+      # prevent user from reading the entire story.
+      num = @story.story_text.length / 3
+      if num > 1000
+        num = 1000
+      end
+      @story.story_text = @story.story_text.slice!(0..num)
+      @story.story_text = @story.story_text[0, @story.story_text.rindex('.') + 1]
+      @story.story_text += " ...</p><p>Log in to keep reading."
+      erb :display_story
+    end
   end
-  erb :display_story
+end
+
+post '/edit/:id' do
+  if logged_in?
+    edit = Suggestion.new
+    edit.story_id = params[:id]
+    edit.user_id = current_user.id
+    edit.edit_text = params[:edit_text]
+    edit.read = false
+    edit.save
+  end
+  redirect to "/story/#{params[:id]}"
 end
 
 post '/vote' do

@@ -7,7 +7,7 @@ CREATE TABLE users(
   password_digest VARCHAR(400)
 );
 
-CREATE TABLE edits(
+CREATE TABLE suggestions(
   id SERIAL4 PRIMARY KEY,
   story_id INTEGER,
   user_id INTEGER,
@@ -28,7 +28,7 @@ CREATE TABLE stories(
 CREATE TABLE votes(
   id SERIAL4 PRIMARY KEY,
   story_id INTEGER,
-  edit_id INTEGER,
+  suggestion_id INTEGER,
   user_id INTEGER,
   direction VARCHAR(4)
 );

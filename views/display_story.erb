@@ -2,12 +2,35 @@
 <h3>By <%= @story.by_line%></h3>
 
 <main>
-
+  <p><%= @story.story_text %></p>
 </main>
 <aside>
  <% if logged_in?%>
-  <form class="" action="" method="post">
-  </form>
+  <% if @story.user == current_user%>
+    <% @edits.each do |edit| %>
+      <div class="edit">
+        <p><%= edit.user.username %> says:</p>
+        <p><%= edit.edit_text %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p>The author of this story would like to say:</p>
+    <p><%= @story.editor_instructions %></p>
+    <form class="" action="/edit/<%= @story.id %>" method="post">
+      <label for="edit_text">What would you like to suggest to the author?</label>
+      <textarea name="edit_text" id="edit_text" rows="8" cols="40"></textarea>
+      <button>Send</button>
+    </form>
+  <% end %>
  <% else %>
+   <form action="/session" method="post">
+     <label for="">Username:</label>
+     <input type="text" name="username">
+
+     <label for="">Password:</label>
+     <input name="password" type="password">
+
+     <button>Log in</button>
+   </form>
  <% end %>
 </aside>
