@@ -1,16 +1,70 @@
-.story_form {
-
+body {
+  background-color: #ffe;
 }
 
-.story_form input, .story_form textarea {
+.wrapper {
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  font-family: 'Handlee', cursive;
+}
+
+header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header li {
+  display: inline-block;
+  padding-right: 1.5rem;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+a {
+  color: red;
+  text-decoration: none;
+  font-family: 'Handlee', cursive;
+  font-size: 1.1em;
+}
+
+.list a {
+  display: block;
+  padding-bottom: .5rem;
+  margin: .25rem 0;
+}
+
+.story_form input[type=text], textarea {
   width: 100%;
   box-sizing: border-box;
   padding: .25rem;
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  font-family: 'Handlee', cursive;
 }
 
 form .hint {
   font-size: .8rem;
   color: #111;
+}
+
+@media (min-width: 50rem){
+  main {
+    width: 28rem;
+    display: inline-block;
+    margin-right: 2rem;
+    text-align: justify;
+  }
+  aside {
+    width: 19rem;
+    display: inline-block;
+    position: absolute;
+  }
 }
