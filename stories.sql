@@ -11,7 +11,8 @@ CREATE TABLE edits(
   id SERIAL4 PRIMARY KEY,
   story_id INTEGER,
   user_id INTEGER,
-  edit_text TEXT
+  edit_text TEXT,
+  read BOOLEAN
 );
 
 CREATE TABLE stories(
