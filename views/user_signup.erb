@@ -12,18 +12,18 @@
   <% if @username_error %>
     <p><%= @username_error %></p>
   <% end %>
-  <label for="">Username:</label>
-  <input type="text" name="username" value="<%= @username %>" required>
+  <label for="username-main">Username:</label>
+  <input type="text" name="username" value="<%= @username %>" id="username-main" required>
   <% if @email_error %>
     <p><%= @email_error %></p>
   <% end %>
-  <label for="">Email:</label>
-  <input type="email" name="email" value="<%= @email %>" required>
+  <label for="email-main">Email:</label>
+  <input type="email" name="email" value="<%= @email %>" id="email-main" required>
   <% if @password_error %>
     <p><%= @password_error %></p>
   <% end %>
-  <label for="">Password:</label>
-  <input name="password" type="password" required>
+  <label for="password-main">Password:</label>
+  <input name="password" type="password" id="password-main" required>
 
   <button>Sign Up</button>
 </form>
