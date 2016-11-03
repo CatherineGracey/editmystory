@@ -34,21 +34,21 @@ get '/user' do
 end
 
 post '/user' do
-  if !params[:username]
+  if !params[:username] || params[:username] == ""
     @username_error = "Please enter a username to register with this site."
   elsif User.find_by(username: params[:username])
     @username_error = "That username is already taken. Please choose another one and try again."
   else
     @username = params[:username]
   end
-  if !params[:email]
+  if !params[:email] || params[:email] == ""
     @email_error = "Please enter an email address to register with this site."
   elsif User.find_by(email: params[:email])
     @email_error = "That email address is already registered with the site. Please log in to your existing account or choose another email address and try again."
   else
     @email = params[:email]
   end
-  if !params[:password]
+  if !params[:password] || params[:password] == ""
     @password_error = "Please enter a password to register with this site."
   end
   if !@username_error && !@email_error && !@password_error
@@ -104,6 +104,7 @@ end
 
 get '/story' do
   if logged_in?
+    @story = Story.new
     erb :submit_story
   else
     redirect to '/'
@@ -112,38 +113,37 @@ end
 
 post '/story' do
   if logged_in?
-    if !params[:title]
+    @story = Story.new
+    if !params[:title] || params[:title] == ""
       @story_title_error = "Every story needs a title. Please add one and try again."
     end
-    if !params[:by_line]
+    @story.title = params[:title]
+    if !params[:by_line] || params[:by_line] == ""
       @by_line_error = "Please enter your name or your pen name, so that your loyal fans know who to buy this book from when it is finished."
     end
-    if !params[:story_text]
+    @story.by_line = params[:by_line]
+    if !params[:story_text] || params[:story_text] == ""
       @story_text_error = "Every story begins with a single word. Yours should try doing this too."
     end
+    @story.story_text = params[:story_text]
+    if !params[:privacy] || (params[:privacy] != "public" && params[:privacy] != "restricted" && params[:privacy] != "private")
+      @story.privacy = "private"
+    else
+      @story.privacy = params[:privacy]
+    end
+    if !params[:editor_instructions] || params[:editor_instructions] == ""
+      @story.editor_instructions = "Please tell me what you think of my story."
+    else
+      @story.editor_instructions = params[:editor_instructions]
+    end
     if !@story_title_error && !@by_line_error && !@story_text_error
-      story = Story.new
-      story.user_id = session[:user_id]
-      story.title = params[:title]
-      story.story_text = params[:story_text]
-      story.by_line = params[:by_line]
-      if !params[:privacy]
-        story.privacy = "private"
+      @story.user_id = session[:user_id]
+      if @story.save
+        redirect to "/story/#{@story.id}"
       else
-        story.privacy = params[:privacy]
-      end
-      if !params[:editor_instructions]
-        story.editor_instructions = "Please tell me what you think of my story."
-      else
-        story.editor_instructions = params[:editor_instructions]
-      end
-      if story.save
-        redirect to "/story/#{story.id}"
+        erb :submit_story
       end
     else
-      puts @story_title_error
-      puts @by_line_error
-      puts @story_text_error
       erb :submit_story
     end
   else
@@ -154,7 +154,11 @@ end
 get '/story/:id' do
   @story = Story.find(params[:id])
   @edits = Suggestion.where(story_id: @story.id)
+  @story.story_text.gsub!("&", "&amp;")
+  @story.story_text.gsub!("<", "&lt;")
+  @story.story_text.gsub!(">", "&gt;")
   @story.story_text.gsub!("\r\n\r\n", '</p><p>')
+  @story.story_text.gsub!("\r\n", '<br>')
   # Story is visible publically:
   #   Users can read the entire story
   #   Visitors can read an excerpt of the story
@@ -208,32 +212,51 @@ end
 put '/story/:id' do
   @story = Story.find(params[:id])
   if logged_in? && @story.user = current_user
-    if !params[:title]
+    if !params[:title] || params[:title] == ""
       @story_title_error = "Every story needs a title. Please add one and try again."
+    else
+      @story.title = params[:title]
     end
-    if !params[:by_line]
+    if !params[:by_line] || params[:by_line] ==""
       @by_line_error = "Please enter your name or your pen name, so that your loyal fans know who to buy this book from when it is finished."
+    else
+      @story.by_line = params[:by_line]
     end
-    if !params[:story_text]
+    if !params[:story_text] || params[:story_text] == ""
       @story_text_error = "Every story begins with a single word. Yours should try doing this too."
+    else
+      @story.story_text = params[:story_text]
+    end
+    if !params[:privacy] || (params[:privacy] != "public" && params[:privacy] != "restricted" && params[:privacy] != "private")
+      @story.privacy = "private"
+    else
+      @story.privacy = params[:privacy]
+    end
+    if !params[:editor_instructions] || params[:editor_instructions] == ""
+      @story.editor_instructions = "Please tell me what you think of my story."
+    else
+      @story.editor_instructions = params[:editor_instructions]
     end
     if !@story_title_error && !@by_line_error && !@story_text_error
-      @story.user_id = session[:user_id]
-      @story.title = params[:title]
-      @story.story_text = params[:story_text]
-      @story.by_line = params[:by_line]
-      if !params[:privacy]
-        @story.privacy = "private"
+      # @story.user_id = session[:user_id]
+      if params[:version] == "true"
+        @newStory = Story.new
+        @newStory.project_id = @story.project_id
+        @newStory.user_id = @story.user_id
+        @newStory.title = @story.title
+        @newStory.story_text = @story.story_text
+        @newStory.by_line = @story.by_line
+        @newStory.privacy = @story.privacy
+        @newStory.editor_instructions = @story.editor_instructions
+        if @newStory.save
+          redirect to "/story/#{@newStory.id}"
+        end
       else
-        @story.privacy = params[:privacy]
-      end
-      if !params[:editor_instructions]
-        @story.editor_instructions = "Please tell me what you think of my story."
-      else
-        @story.editor_instructions = params[:editor_instructions]
+        if @story.save
+          redirect to "/story/#{@story.id}"
+        end
       end
     end
-      @story.save
     @edits = @story.suggestions
     erb :edit_story
   else
