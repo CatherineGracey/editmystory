@@ -1,4 +1,4 @@
-<h2>Upload A Story</h2>
+<h2>Upload Your Story</h2>
 
 <form class="story_form" action="/story" method="post">
   <label for="title">Title</label>
@@ -10,16 +10,18 @@
   <label for="story_text">Story Text</label>
   <textarea name="story_text" id="story_text" required></textarea>
 
-  <label>Make this story:</label>
+  <p>Make this story:</p>
   <input type="radio" name="privacy" value="public" id="public_radio">
   <label for="public_radio">Public - anyone can read this.</label>
+  <br>
   <input type="radio" name="privacy" value="restricted" id="restricted_radio">
   <label for="restricted_radio">Restricted - only logged in users can read this.</label>
+  <br>
   <input type="radio" name="privacy" value="private" id="private_radio" checked>
   <label for="private_radio">Private - only you can read this.</label>
-
-  <label for="editor_instructions">Instructions to Editors</label>
-  <span class="hint">Max 500 characters</span>
+  <br>
+  <p>Instructions to Editors</p>
+  <p class="hint">Max 500 characters</p>
   <textarea name="editor_instructions" id="editor_instructions"></textarea>
 
   <button>Save</button>
