@@ -1,16 +1,13 @@
-<h2>Dashboard</h2>
+<p>Welcome, <%= current_user.username %></p>
 
 <h3>Your Stories:</h3>
 
 <% if @stories.length == 0 %>
   <p>You haven't uploaded anything yet.</p>
 <% else %>
-  <% @stories.each do |story| %>
-  <a href="/story/<%= story.id%>"><%= story.title %> with <%= story.suggestions.length %> suggested edits.</a>
-  <% end %>
+  <div class="list">
+    <% @stories.each do |story| %>
+      <a href="/story/<%= story.id%>"><%= story.title %> with <%= story.suggestions.length %> suggested edits.</a>
+    <% end %>
+  </div>
 <% end %>
-
-Where users can manage their account.
-See a list of edits for their stories.
-See their reputation.
-Manage their settings.
