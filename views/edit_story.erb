@@ -3,12 +3,19 @@
 <main>
   <form class="story_form" action="/story/<%= @story.id %>" method="post">
     <input type="hidden" name="_method" value="put">
+    <% if @story_title_error %>
+      <p><%= @story_title_error %></p>
+    <% end %>
     <label for="title">Title</label>
     <input type="text" name="title" id="title" value="<%= @story.title %>" required>
-
+    <% if @by_line_error %>
+      <p><%= @by_line_error %></p>
+    <% end %>
     <label for="by_line">By Line</label>
     <input type="text" name="by_line" id="by_line" value="<%= @story.by_line %>" required>
-
+    <% if @story_text_error %>
+      <p><%= @story_text_error %></p>
+    <% end %>
     <label for="story_text">Story Text</label>
     <textarea name="story_text" id="story_text" required><%= @story.story_text %></textarea>
 
@@ -27,7 +34,7 @@
     <textarea name="editor_instructions" id="editor_instructions"><%= @story.editor_instructions %></textarea>
 
     <input type="checkbox" name="version" id="version" value="true"><label for="version">New version</label>
-    <button>Save</button>
+    <button>Save</button> <a href="/story/<%= @story.id%>">Don't save changes</a>
   </form>
 </main>
 <aside>
@@ -41,7 +48,7 @@
     <% end %>
     </div>
   <% end %>
-  <h3 class="flush">Suggested edits</h3>
+  <h3>Suggested edits</h3>
   <% if @edits.length == 0%>
     <p>This version does not have any suggested edits.</p>
   <% else %>
