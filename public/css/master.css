@@ -8,7 +8,11 @@ body {
   margin: 0 auto;
 }
 
-header, h1, h2, a, input, textarea {
+.flush {
+  margin-top: 0;
+}
+
+header, h1, h2, a, input, textarea, .note {
   font-family: 'Handlee', cursive;
 }
 
@@ -50,6 +54,11 @@ a {
   padding: .25rem;
   font-size: 1.1rem;
   margin-bottom: 1rem;
+  display: block;
+}
+
+#story_text {
+  height: 10em;
 }
 
 form .hint {
