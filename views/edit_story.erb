@@ -1,0 +1,55 @@
+<h2>Edit <%= @story.title %></h2>
+
+<main>
+  <form class="story_form" action="/story/<%= @story.id %>" method="post">
+    <input type="hidden" name="_method" value="put">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" value="<%= @story.title %>" required>
+
+    <label for="by_line">By Line</label>
+    <input type="text" name="by_line" id="by_line" value="<%= @story.by_line %>" required>
+
+    <label for="story_text">Story Text</label>
+    <textarea name="story_text" id="story_text" required><%= @story.story_text %></textarea>
+
+    <p>Make this story:</p>
+    <input type="radio" name="privacy" value="public" id="public_radio" <% if @story.privacy == "public" %>checked<% end %>>
+    <label for="public_radio">Public - anyone can read this.</label>
+    <br>
+    <input type="radio" name="privacy" value="restricted" id="restricted_radio" <% if @story.privacy == "restricted" %>checked<% end %>>
+    <label for="restricted_radio">Restricted - only logged in users can read this.</label>
+    <br>
+    <input type="radio" name="privacy" value="private" id="private_radio" <% if @story.privacy == "private" %>checked<% end %>>
+    <label for="private_radio">Private - only you can read this.</label>
+    <br>
+    <p>Instructions to Editors</p>
+    <p class="hint">Max 500 characters</p>
+    <textarea name="editor_instructions" id="editor_instructions"><%= @story.editor_instructions %></textarea>
+
+    <input type="checkbox" name="version" id="version" value="true"><label for="version">New version</label>
+    <button>Save</button>
+  </form>
+</main>
+<aside>
+  <% if @versions %>
+    <div class="flex">
+    <% if @versions[:previous] %>
+      <a href="#">&#8249; Previous Version</a>
+    <% end %>
+    <% if @versions[:next] %>
+      <a href="#">Next Version &#8250;</a>
+    <% end %>
+    </div>
+  <% end %>
+  <h3 class="flush">Suggested edits</h3>
+  <% if @edits.length == 0%>
+    <p>This version does not have any suggested edits.</p>
+  <% else %>
+    <% @edits.each do |edit| %>
+      <div class="edit">
+        <p><%= edit.user.username %> says:</p>
+        <p class="note"><%= edit.edit_text %></p>
+      </div>
+    <% end %>
+  <% end %>
+</aside>

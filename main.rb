@@ -194,6 +194,53 @@ get '/story/:id' do
   end
 end
 
+get '/story/:id/edit' do
+  @story = Story.find(params[:id])
+  @versions = {:previous => true, :next => true}
+  if logged_in? && @story.user == current_user
+    @edits = @story.suggestions
+    erb :edit_story
+  else
+    redirect to "/story/#{params[:id]}"
+  end
+end
+
+put '/story/:id' do
+  @story = Story.find(params[:id])
+  if logged_in? && @story.user = current_user
+    if !params[:title]
+      @story_title_error = "Every story needs a title. Please add one and try again."
+    end
+    if !params[:by_line]
+      @by_line_error = "Please enter your name or your pen name, so that your loyal fans know who to buy this book from when it is finished."
+    end
+    if !params[:story_text]
+      @story_text_error = "Every story begins with a single word. Yours should try doing this too."
+    end
+    if !@story_title_error && !@by_line_error && !@story_text_error
+      @story.user_id = session[:user_id]
+      @story.title = params[:title]
+      @story.story_text = params[:story_text]
+      @story.by_line = params[:by_line]
+      if !params[:privacy]
+        @story.privacy = "private"
+      else
+        @story.privacy = params[:privacy]
+      end
+      if !params[:editor_instructions]
+        @story.editor_instructions = "Please tell me what you think of my story."
+      else
+        @story.editor_instructions = params[:editor_instructions]
+      end
+    end
+      @story.save
+    @edits = @story.suggestions
+    erb :edit_story
+  else
+    redirect to "/story/#{params[:id]}"
+  end
+end
+
 post '/edit/:id' do
   if logged_in?
     edit = Suggestion.new
