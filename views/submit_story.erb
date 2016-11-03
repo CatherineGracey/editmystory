@@ -5,31 +5,31 @@
     <p><%= @story_title_error %></p>
   <% end %>
   <label for="title">Title</label>
-  <input type="text" name="title" id="title" value="" required>
+  <input type="text" name="title" id="title" value="<%= @story.title %>" required>
   <% if @by_line_error %>
     <p><%= @by_line_error %></p>
   <% end %>
   <label for="by_line">By Line</label>
-  <input type="text" name="by_line" id="by_line" value="" required>
+  <input type="text" name="by_line" id="by_line" value="<%= @story.by_line %>" required>
   <% if @story_text_error %>
     <p><%= @story_text_error %></p>
   <% end %>
   <label for="story_text">Story Text</label>
-  <textarea name="story_text" id="story_text" required></textarea>
+  <textarea name="story_text" id="story_text" required><%= @story.story_text %></textarea>
 
   <p>Make this story:</p>
-  <input type="radio" name="privacy" value="public" id="public_radio">
+  <input type="radio" name="privacy" value="public" id="public_radio" <% if @story.privacy == "public" %>checked<% end %>>
   <label for="public_radio">Public - anyone can read this.</label>
   <br>
-  <input type="radio" name="privacy" value="restricted" id="restricted_radio">
+  <input type="radio" name="privacy" value="restricted" id="restricted_radio" <% if @story.privacy == "restricted" %>checked<% end %>>
   <label for="restricted_radio">Restricted - only logged in users can read this.</label>
   <br>
-  <input type="radio" name="privacy" value="private" id="private_radio" checked>
+  <input type="radio" name="privacy" value="private" id="private_radio" <% if @story.privacy == "private" %>checked<% end %>>
   <label for="private_radio">Private - only you can read this.</label>
   <br>
   <p>Instructions to Editors</p>
   <p class="hint">Max 500 characters</p>
-  <textarea name="editor_instructions" id="editor_instructions"></textarea>
+  <textarea name="editor_instructions" id="editor_instructions"><%= @story.editor_instructions %></textarea>
 
   <button>Save</button>
 </form>
