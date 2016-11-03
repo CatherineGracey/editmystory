@@ -6,7 +6,9 @@
   <% end %>
   <label for="">Username:</label>
   <input type="text" name="username" value="<%= @username %>">
-
+  <% if @password_incorrect %>
+  <p><%= @password_incorrect %></p>
+  <% end %>
   <label for="">Password:</label>
   <input name="password" type="password">
 
