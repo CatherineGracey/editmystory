@@ -8,11 +8,16 @@
  <% if logged_in?%>
   <% if @story.user == current_user%>
     <a href="/story/<%= @story.id %>/edit">Edit Story</a>
-    <% @edits.each do |edit| %>
-      <div class="edit">
-        <p><%= edit.user.username %> says:</p>
-        <p><%= edit.edit_text %></p>
-      </div>
+    <h3>Suggested edits</h3>
+    <% if @edits.length == 0%>
+      <p>This version does not have any suggested edits.</p>
+    <% else %>
+      <% @edits.each do |edit| %>
+        <div class="edit">
+          <p><%= edit.user.username %> says:</p>
+          <p><%= edit.edit_text %></p>
+        </div>
+      <% end %>
     <% end %>
   <% else %>
     <p>The author of this story would like to say:</p>
