@@ -1,12 +1,19 @@
 <h2>Upload Your Story</h2>
 
 <form class="story_form" action="/story" method="post">
+  <% if @story_title_error %>
+    <p><%= @story_title_error %></p>
+  <% end %>
   <label for="title">Title</label>
   <input type="text" name="title" id="title" value="" required>
-
+  <% if @by_line_error %>
+    <p><%= @by_line_error %></p>
+  <% end %>
   <label for="by_line">By Line</label>
   <input type="text" name="by_line" id="by_line" value="" required>
-
+  <% if @story_text_error %>
+    <p><%= @story_text_error %></p>
+  <% end %>
   <label for="story_text">Story Text</label>
   <textarea name="story_text" id="story_text" required></textarea>
 
