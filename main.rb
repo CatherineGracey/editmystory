@@ -218,7 +218,7 @@ get '/story/:id/edit' do
   @story = @stories.last
   @versions = {:previous => false, :next => false}
   if @stories.length > 1
-    @versions[:previous] = true
+    # @versions[:previous] = true
   end
   if logged_in? && @story.user == current_user
     @edits = @story.suggestions

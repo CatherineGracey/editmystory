@@ -1,7 +1,13 @@
 # WDI Project 2
 ## Edit My Story by Catherine Gracey
 
-### Technical Requirements
+### Project Overview
+
+Edit My Story is a site where authors can submit their stories for review. Readers can find stories that they would like to read, and then submit suggestions for improvement. Authors can then edit their story and post new versions of their work based on feedback.
+
+### Requirements
+
+#### Technical Requirements
 
 **1** **Have at _least_ 2 models** (more if they make sense) – one representing someone using your application, and one that represents the main functional idea for your app
 
@@ -33,7 +39,7 @@ User stories, wireframes and other project notes are availabe on Trello at https
 
 This project, Edit My Story, is hosted online by Heroku at https://editmystory.herokuapp.com/.
 
-### Necessary Deliverables
+#### Necessary Deliverables
 
 **1** A **working full-stack application, built by you**, hosted somewhere on the internet
 
@@ -49,7 +55,20 @@ The repository for this project is available on GitHub at https://github.com/Cat
 
 **4** **A ``readme.md`` file** with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc.
 
+Please refer to the next section.
+
 **5** **Wireframes of your app**, hosted somewhere & linked in your readme
 **6** A link in your ``readme.md`` to the publically-accessible **user stories you created**
 
 User stories, wireframes and other project notes are availabe on Trello at https://trello.com/b/LuBupmgJ/edit-my-story.
+
+### Future Development
+
+A common problem with self published works (and their related fields) is that readers have a difficult time separating out what they would like to read from what they would not like to read. The app needs to include the following mechanisms for users:
+
+1. Users need to be able to favourite an author and then use this connection to find works by that author easily and quickly.
+2. Users need to be able to upvote the stories that they have enjoyed, so that other users know a story might be worth reading.
+3. Conversely, users need to be able to downvote stories that they feel are not worth the editorial assistance.
+4. Users should be able to find stories based on genre. However, genre is a very fluid concept in the self publishing world, so tags might be a better search mechanism.
+5. Authors need to be able to access the previous versions of their stories and the associated suggestions.
+6. The versioning system used in the app is very primitive and inflexible. A system that allows authors a more sophisticated level of control over the editing process would probably be beneficial.
