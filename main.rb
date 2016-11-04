@@ -5,6 +5,7 @@ require_relative 'models/story'
 require_relative 'models/suggestion'
 require_relative 'models/user'
 require_relative 'models/vote'
+require 'pry'
 
 enable :sessions
 
@@ -22,9 +23,14 @@ end
 
 get '/' do
   if logged_in?
-    @stories = Story.where.not(privacy: "private")
+    keys = Story.where.not(privacy: "private").group(:project_id).count
   else
-    @stories = Story.where(privacy: "public")
+    keys = Story.where(privacy: "public").group(:project_id).count
+  end
+  @stories = []
+  keys.each_key do |key|
+    story = Story.where(project_id: key).last
+    @stories << story
   end
   erb :index
 end
@@ -67,7 +73,7 @@ post '/user' do
   end
 end
 
-get 'user/:id' do
+get '/user/:id' do
   erb :display_user
 end
 
@@ -94,8 +100,12 @@ end
 
 get '/dashboard' do
   if logged_in?
-    @stories = Story.where(user_id: session[:user_id])
-    p @stories
+    keys = Story.where(user_id: session[:user_id]).group("project_id").count
+    @stories = []
+    keys.each_key do |key|
+      story = Story.where(project_id: key).last
+      @stories << story
+    end
     erb :dashboard
   else
     redirect to '/'
@@ -139,7 +149,8 @@ post '/story' do
     if !@story_title_error && !@by_line_error && !@story_text_error
       @story.user_id = session[:user_id]
       if @story.save
-        redirect to "/story/#{@story.id}"
+        @story.reload
+        redirect to "/story/#{@story.project_id}"
       else
         erb :submit_story
       end
@@ -152,7 +163,7 @@ post '/story' do
 end
 
 get '/story/:id' do
-  @story = Story.find(params[:id])
+  @story = Story.where(project_id: params[:id]).last
   @edits = Suggestion.where(story_id: @story.id)
   @story.story_text.gsub!("&", "&amp;")
   @story.story_text.gsub!("<", "&lt;")
@@ -191,7 +202,11 @@ get '/story/:id' do
         num = 1000
       end
       @story.story_text = @story.story_text.slice!(0..num)
-      @story.story_text = @story.story_text[0, @story.story_text.rindex('.') + 1]
+      if @story.story_text.rindex('.')
+        @story.story_text = @story.story_text[0, @story.story_text.rindex('.') + 1]
+      else
+        @story.story_text = @story.story_text[0, @story.story_text.rindex(' ') + 1]
+      end
       @story.story_text += " ...</p><p>Log in to keep reading."
       erb :display_story
     end
@@ -199,8 +214,12 @@ get '/story/:id' do
 end
 
 get '/story/:id/edit' do
-  @story = Story.find(params[:id])
-  @versions = {:previous => true, :next => true}
+  @stories = Story.where(project_id: params[:id])
+  @story = @stories.last
+  @versions = {:previous => false, :next => false}
+  if @stories.length > 1
+    @versions[:previous] = true
+  end
   if logged_in? && @story.user == current_user
     @edits = @story.suggestions
     erb :edit_story
@@ -249,11 +268,13 @@ put '/story/:id' do
         @newStory.privacy = @story.privacy
         @newStory.editor_instructions = @story.editor_instructions
         if @newStory.save
-          redirect to "/story/#{@newStory.id}"
+          @story.privacy = "private"
+          @story.save
+          redirect to "/story/#{@newStory.project_id}"
         end
       else
         if @story.save
-          redirect to "/story/#{@story.id}"
+          redirect to "/story/#{@story.project_id}"
         end
       end
     end

@@ -7,7 +7,7 @@
 <aside>
  <% if logged_in?%>
   <% if @story.user == current_user%>
-    <a href="/story/<%= @story.id %>/edit">Edit Story</a>
+    <a href="/story/<%= @story.project_id %>/edit">Edit Story</a>
     <h3>Suggested edits</h3>
     <% if @edits.length == 0%>
       <p>This version does not have any suggested edits.</p>

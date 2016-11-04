@@ -1,7 +1,7 @@
 <h2>Edit <%= @story.title %></h2>
 
 <main>
-  <form class="story_form" action="/story/<%= @story.id %>" method="post">
+  <form class="story_form" action="/story/<%= @story.project_id %>" method="post">
     <input type="hidden" name="_method" value="put">
     <% if @story_title_error %>
       <p><%= @story_title_error %></p>
@@ -34,7 +34,7 @@
     <textarea name="editor_instructions" id="editor_instructions"><%= @story.editor_instructions %></textarea>
 
     <input type="checkbox" name="version" id="version" value="true"><label for="version">New version</label>
-    <button>Save</button> <a href="/story/<%= @story.id%>">Don't save changes</a>
+    <button>Save</button> <a href="/story/<%= @story.project_id%>">Don't save changes</a>
   </form>
 </main>
 <aside>

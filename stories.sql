@@ -30,8 +30,6 @@ CREATE TABLE stories(
   updated_at TIMESTAMP
 );
 
-ALTER TABLE stories ADD project_id SERIAL4;
-
 CREATE TABLE votes(
   id SERIAL4 PRIMARY KEY,
   story_id INTEGER,

@@ -7,7 +7,7 @@
 <% else %>
   <div class="list">
     <% @stories.each do |story| %>
-      <a href="/story/<%= story.id%>"><%= story.title %> with <%= story.suggestions.length %> suggested edits.</a>
+      <a href="/story/<%= story.project_id%>"><%= story.title %> with <%= story.suggestions.length %> suggested edits.</a>
     <% end %>
   </div>
 <% end %>
