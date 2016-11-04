@@ -5,7 +5,7 @@ require_relative 'models/story'
 require_relative 'models/suggestion'
 require_relative 'models/user'
 require_relative 'models/vote'
-require 'pry'
+# require 'pry'
 
 enable :sessions
 
