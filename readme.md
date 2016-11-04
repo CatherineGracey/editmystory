@@ -64,7 +64,7 @@ User stories, wireframes and other project notes are availabe on Trello at https
 
 ### Future Development
 
-A common problem with self published works (and their related fields) is that readers have a difficult time separating out what they would like to read from what they would not like to read. The app needs to include the following mechanisms for users:
+A common problem with self published works (and their related fields) is that readers have a difficult time separating out what they would like to read from what they would not like to read, and authors have a difficult time figuring out why the market reacts to their work in the way that it does. The app needs to include the following mechanisms for users:
 
 1. Users need to be able to favourite an author and then use this connection to find works by that author easily and quickly.
 2. Users need to be able to upvote the stories that they have enjoyed, so that other users know a story might be worth reading.
@@ -72,3 +72,6 @@ A common problem with self published works (and their related fields) is that re
 4. Users should be able to find stories based on genre. However, genre is a very fluid concept in the self publishing world, so tags might be a better search mechanism.
 5. Authors need to be able to access the previous versions of their stories and the associated suggestions.
 6. The versioning system used in the app is very primitive and inflexible. A system that allows authors a more sophisticated level of control over the editing process would probably be beneficial.
+7. Authors should be able to mark edits as read, so that the dashboard tells them about items they still need to action, rather than items in total.
+8. The site needs a mechanism to prevent authors from flooding it with stories without editing the stories of others in turn.
+9. There needs to be a mechanism to reward readers for providing quality suggestions to authors, rather than empty messages of "I liked your story" or "Have you considered changing your romantic period drama to a science fiction war story?"
